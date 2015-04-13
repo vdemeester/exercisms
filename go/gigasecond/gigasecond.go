@@ -5,10 +5,10 @@ import (
 )
 
 const TestVersion = 2
-const gigaSecond = 1e9
+const gigaSecond time.Duration = 1e9 * time.Second
 
 func AddGigasecond(thetime time.Time) time.Time {
-	return thetime.Add(gigaSecond * time.Second)
+	return thetime.Add(gigaSecond)
 }
 
 var myLocation, err = time.LoadLocation("Europe/Paris")
