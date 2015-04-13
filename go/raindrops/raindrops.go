@@ -6,17 +6,17 @@ import (
 
 func Convert(number int) string {
 	output := ""
-	if (isDivisible(number, 3)) {
-		output += "Pling"
+	if isDivisible(number, 3) {
+		output = "Pling"
 	}
-	if (isDivisible(number, 5)) {
+	if isDivisible(number, 5) {
 		output += "Plang"
 	}
-	if (isDivisible(number, 7)) {
+	if isDivisible(number, 7) {
 		output += "Plong"
 	}
-	if (output == "") {
-		output += strconv.Itoa(number)
+	if output == "" {
+		output = strconv.Itoa(number)
 	}
 	return output
 }
@@ -24,4 +24,3 @@ func Convert(number int) string {
 func isDivisible(number int, factor int) bool {
 	return number%factor == 0
 }
-
