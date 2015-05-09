@@ -1,11 +1,9 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class DNA {
-
-    private static Character[] symbols = new Character[]{'A', 'C', 'G', 'T'};
+    private static List<Character> symbols = Collections.unmodifiableList(Arrays.asList('A', 'C', 'G', 'T'));
     Map<Character, Integer> nucleotideCount = new HashMap<>();
+
 
     public DNA(String dna) {
         populateMapWithDefaultSymbols();
@@ -25,7 +23,7 @@ public class DNA {
     }
 
     public Integer count(char symbol) {
-        if (!Arrays.asList(symbols).contains(symbol)) {
+        if (!symbols.contains(symbol)) {
             throw new IllegalArgumentException("Illegal symbol");
         }
         return nucleotideCount.getOrDefault(symbol, 0);
