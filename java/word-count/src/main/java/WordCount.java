@@ -1,19 +1,24 @@
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class WordCount {
 
     public Map<String, Integer> Phrase(String words) {
-        Map<String, Integer> wordsCount = new HashMap<>();
-        Arrays.asList(words.split(" ")).stream()                            // Split & stream
-                .map(word -> word.replaceAll("[^a-zA-Z0-9]", ""))           // Remove non alpha-numeric characters
+        return Arrays.asList(words.split("\\W+")).stream()                  // Split & stream \\w keep non word char, \\W does not \o/
                 .filter(word -> !word.isEmpty())                            // Filter out empty
                 .map(String::toLowerCase)                                   // Normalize it (lower case)
-                .forEach(word -> {
-                    wordsCount.putIfAbsent(word, 0);                        // Initialize if absent
-                    wordsCount.compute(word, (sameWord, value) -> ++value); // Increment it
-                });
-        return wordsCount;
+                .collect(wordCountCollectior());
+    }
+
+    private static Collector<String, ?, Map<String, Integer>> wordCountCollectior() {
+        return Collectors.groupingBy(word -> word, counting());
+    }
+
+    // Collectors.counting() works on Long :(
+    private static Collector<String, ?, Integer> counting() {
+        return Collectors.reducing(0, word -> 1, Integer::sum);
     }
 }
