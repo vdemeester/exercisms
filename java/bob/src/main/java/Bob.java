@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 
 public class Bob {
 
-    public static final ConditionalAnswer WHATEVER_ANSWER = new ConditionalAnswer(anySentence -> true, "Whatever.");
+    private static final ConditionalAnswer WHATEVER_ANSWER = new ConditionalAnswer(anySentence -> true, "Whatever.");
     private static final Condition isNothing = sentence -> sentence == null || sentence.isEmpty();
     private static final Condition isQuestion = sentence -> sentence.endsWith("?");
     private static final Condition isShout = sentence -> {
@@ -24,7 +24,7 @@ public class Bob {
     public String hey(String sentence) {
         String normalizedSentence = normalizeSentence(sentence);
         return conditions.stream()
-                .filter(conditionalAnswer -> conditionalAnswer.condition.test(normalizedSentence))
+                .filter(conditionalAnswer -> conditionalAnswer.triggered(normalizedSentence))
                 .findFirst()
                 .orElse(WHATEVER_ANSWER)
                 .answer();
@@ -42,6 +42,10 @@ public class Bob {
         public ConditionalAnswer(Condition condition, String answer) {
             this.condition = condition;
             this.answer = answer;
+        }
+
+        public boolean triggered(String sentence) {
+            return condition.test(sentence);
         }
 
         public String answer() {
