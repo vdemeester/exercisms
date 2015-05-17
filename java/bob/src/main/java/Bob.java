@@ -4,53 +4,52 @@ import java.util.function.Predicate;
 
 public class Bob {
 
-    private List<ConditionalAnswer> conditions = new LinkedList<>();
+    public static final ConditionalAnswer WHATEVER_ANSWER = new ConditionalAnswer(anySentence -> true, "Whatever.");
+    private static final Condition isNothing = sentence -> sentence == null || sentence.isEmpty();
+    private static final Condition isQuestion = sentence -> sentence.endsWith("?");
+    private static final Condition isShout = sentence -> {
+        String cleanedSentence = normalizeSentence(sentence.replaceAll("[,0-9?]", ""));
+        return !cleanedSentence.isEmpty() && cleanedSentence.equals(cleanedSentence.toUpperCase());
+    };
 
-    public static final String WHATEVER = "Whatever.";
-    public static final String FINE_BE_THAT_WAY = "Fine. Be that way!";
-    public static final String WHOA_CHILL_OUT = "Whoa, chill out!";
-    public static final String SURE = "Sure.";
+    private List<ConditionalAnswer> conditions = new LinkedList<>();
 
     // The "final" touch would be to be able to pass a list of conditions to Bob :)
     public Bob() {
-        conditions.add(new ConditionalAnswer(isNothing, FINE_BE_THAT_WAY));
-        conditions.add(new ConditionalAnswer(isShout, WHOA_CHILL_OUT));
-        conditions.add(new ConditionalAnswer(isQuestion, SURE));
+        conditions.add(new ConditionalAnswer(isNothing, "Fine. Be that way!"));
+        conditions.add(new ConditionalAnswer(isShout, "Whoa, chill out!"));
+        conditions.add(new ConditionalAnswer(isQuestion, "Sure."));
     }
 
     public String hey(String sentence) {
         String normalizedSentence = normalizeSentence(sentence);
         return conditions.stream()
-                .filter(conditionalAnswer -> conditionalAnswer.predicate.test(normalizedSentence))
+                .filter(conditionalAnswer -> conditionalAnswer.condition.test(normalizedSentence))
                 .findFirst()
-                .orElse(new ConditionalAnswer(anySentence -> true, WHATEVER))
+                .orElse(WHATEVER_ANSWER)
                 .answer();
     }
 
-    private static final Predicate<String> isNothing = sentence -> sentence == null || sentence.isEmpty();
-    private static final Predicate<String> isShout = sentence -> {
-        String cleanedSentence = normalizeSentence(sentence.replaceAll("[,0-9?]", ""));
-        return !cleanedSentence.isEmpty() && cleanedSentence.equals(cleanedSentence.toUpperCase());
-    };
-    private static final Predicate<String> isQuestion = sentence -> sentence.endsWith("?");
-
-    private static String normalizeSentence(String sentence) {
-        return sentence.trim();
-    }
+    // Just sugar :)
+    public interface Condition extends Predicate<String> {}
 
     // This wouldn't probably be a inner class ;-P
     public static class ConditionalAnswer {
 
-        private final Predicate<String> predicate;
+        private final Condition condition;
         private final String answer;
 
-        public ConditionalAnswer(Predicate<String> predicate, String answer) {
-            this.predicate = predicate;
+        public ConditionalAnswer(Condition condition, String answer) {
+            this.condition = condition;
             this.answer = answer;
         }
 
         public String answer() {
             return answer;
         }
+    }
+
+    private static String normalizeSentence(String sentence) {
+        return sentence.trim();
     }
 }
