@@ -15,5 +15,16 @@ pkgs.stdenv.mkDerivation rec {
 	buildInputs = [
 		pkgs.exercism
 		pkgs.go_1_8
+		pkgs.openjdk
+		pkgs.clojure
+		pkgs.leiningen
+		pkgs.python
+		pkgs.ghc
+		pkgs.stack
+		pkgs.hlint
+		pkgs.emacs
+		pkgs.rustc
+		pkgs.sbcl
+		pkgs.lispPackages.quicklisp
 	];
 }
