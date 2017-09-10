@@ -4,8 +4,8 @@ in
 	{ pkgs ? import (_pkgs.fetchFromGitHub {
 		owner = "NixOS";
 		repo = "nixpkgs-channels";
-		rev = "1add3519dffca4fa40e539904c3c9522582167f7";
-		sha256 = "1qmwpvp5s6639qf3llc3yy5qnmdkka7pw1lzr4h73cn2439jg0cn";
+		rev = "d0d905668c010b65795b57afdf7f0360aac6245b";
+		sha256 = "1kqxfmsik1s1jsmim20n5l4kq6wq8743h5h17igfxxbbwwqry88l";
 	}) {}
 }:
 
@@ -14,7 +14,7 @@ pkgs.stdenv.mkDerivation rec {
 	env = pkgs.buildEnv { name = name; paths = buildInputs; };
 	buildInputs = [
 		pkgs.exercism
-		pkgs.go_1_8
+		pkgs.go_1_9
 		pkgs.openjdk
 		pkgs.clojure
 		pkgs.leiningen
