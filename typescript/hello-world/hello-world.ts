@@ -1,5 +1,5 @@
 class HelloWorld {
-    static hello(_$name?: string) {
+    static hello(_name?: string) {
         return 'Hello, World!'
     }
 }
