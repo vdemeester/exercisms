@@ -4,6 +4,7 @@ stdenv.mkDerivation {
   buildInputs = with pkgs; [
   	exercism
 		openjdk
+    gradle
 		clojure
 		leiningen
     go
