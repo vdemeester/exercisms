@@ -9,11 +9,12 @@
 
 ;;; Code:
 
-
-
-
-
-
+(defun from (s mi h d mo y)
+  (set-time-zone-rule t)
+  (let* ((time (encode-time s mi h d mo y))
+	 (giga (seconds-to-time 1000000000))
+	 (time-plus-giga (time-add time giga)))
+    (subseq (decode-time time-plus-giga) 0 6)))
 
 (provide 'gigasecond)
 ;;; gigasecond.el ends here
