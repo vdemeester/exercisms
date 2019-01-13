@@ -2,18 +2,18 @@ with import <nixpkgs> {};
 stdenv.mkDerivation {
   name = "exercisms";
   buildInputs = with pkgs; [
-  	exercism
-		openjdk
+    exercism
+    openjdk
     gradle
-		clojure
-		leiningen
+    clojure
+    leiningen
     go
     python
-		ghc
-		stack
-		hlint
-		rustup
-		sbcl
-		lispPackages.quicklisp
+    ghc
+    stack
+    hlint
+    rustup
+    sbcl
+    lispPackages.quicklisp
   ];
 }
