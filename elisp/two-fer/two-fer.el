@@ -3,7 +3,9 @@
 ;;; Commentary:
 
 ;;; Code:
-
+(defun two-fer (&optional name)
+  "One for X, one for me."
+  (format "One for %s, one for me." (or name "you")))
 
 (provide 'two-fer)
 ;;; two-fer.el ends here
